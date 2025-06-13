@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Card</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      background-color: #fff8f0;
+      padding: 40px;
+    }
+
+    img {
+      width: 400px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      color: #ff4081;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #333;
+      font-size: 1.1em;
+      margin: 12px 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cake Image -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgFwgkeLgvBfhUXyhRe9PUxYtvlWb0zMyv1A&s">
+
+  <h1>Happy Birthday, You Glorious Disaster 🫶🏻 </h1>
+
+  <!-- Edgy Birthday Jokes & Wishes -->
+  <div>
+    <p>Congrats - you’ve somehow survived another lap around the sun without getting arrested or abducted. That’s honestly kinda impressive.</p>
+<p>Birthdays: nature’s subtle way of saying “eat more cake and pretend your life isn’t a hot mess.”</p>
+<p>Cheers to you — definitely older, questionably wiser, but undeniably louder.</p>
+<p>You’re aging like fine wine… just kidding, more like expired milk. Still loveable though. Mostly.</p>
+<p>I was gonna get you a gift, but then I remembered... you already have me. So you’re welcome.</p>
+<p>They say age is just a number. Yours is just, u’know... starting to get a little *up there*.</p>
+<p>Hope your day’s full of cake, chaos, and at least a few poor decisions you'll pretend were totally worth it.</p>
+<p>Live it up — soon you won't need a permission slip to party past 9PM. 👽</p>
+
+  </div>
+
+  <audio id="myAudio">
+    <source src="Happy%20birthday%20to%20you%20nobody%20likes%20u%20lyrics.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <button onclick="playAudio()">▶️ Play Birthday Song</button>
+
+  <script>
+    function playAudio() {
+      const audio = document.getElementById("myAudio");
+      audio.play();
+    }
+  </script>
+  
+</body>
+</html>
