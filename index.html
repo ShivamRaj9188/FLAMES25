@@ -7,30 +7,85 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      background-color: #fff8f0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       padding: 40px;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     img {
       width: 400px;
       height: auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      margin-bottom: 30px;
+      transition: transform 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.05) rotate(-2deg);
     }
 
     h1 {
-      color: #ff4081;
-      font-size: 2.5em;
-      margin-bottom: 20px;
+      color: #fff700;
+      font-size: 3em;
+      margin-bottom: 25px;
+      text-shadow: 2px 2px 10px #ff1493;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     p {
-      color: #333;
-      font-size: 1.1em;
-      margin: 12px 0;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      color: #ffffff;
+      font-size: 1.15em;
+      margin: 14px auto;
+      max-width: 700px;
+      background: rgba(0,0,0,0.2);
+      padding: 12px 20px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 1em;
+      font-weight: bold;
+      background: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #ff1493;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
+    }
+
+    canvas#confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
     }
 
     audio {
@@ -39,37 +94,97 @@
   </style>
 </head>
 <body>
-  <!-- Cake Image -->
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgFwgkeLgvBfhUXyhRe9PUxYtvlWb0zMyv1A&s">
 
-  <h1>Happy Birthday, You Glorious Disaster 🫶🏻 </h1>
+  <!-- Cake Image -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgFwgkeLgvBfhUXyhRe9PUxYtvlWb0zMyv1A&s" alt="Birthday Cake">
+
+  <h1>Happy Birthday, You Glorious Disaster 🫶🏻</h1>
 
   <!-- Edgy Birthday Jokes & Wishes -->
   <div>
     <p>Congrats - you’ve somehow survived another lap around the sun without getting arrested or abducted. That’s honestly kinda impressive.</p>
-<p>Birthdays: nature’s subtle way of saying “eat more cake and pretend your life isn’t a hot mess.”</p>
-<p>Cheers to you — definitely older, questionably wiser, but undeniably louder.</p>
-<p>You’re aging like fine wine… just kidding, more like expired milk. Still loveable though. Mostly.</p>
-<p>I was gonna get you a gift, but then I remembered... you already have me. So you’re welcome.</p>
-<p>They say age is just a number. Yours is just, u’know... starting to get a little *up there*.</p>
-<p>Hope your day’s full of cake, chaos, and at least a few poor decisions you'll pretend were totally worth it.</p>
-<p>Live it up — soon you won't need a permission slip to party past 9PM. 👽</p>
-
+    <p>Birthdays: nature’s subtle way of saying “eat more cake and pretend your life isn’t a hot mess.”</p>
+    <p>Cheers to you — definitely older, questionably wiser, but undeniably louder.</p>
+    <p>You’re aging like fine wine… just kidding, more like expired milk. Still loveable though. Mostly.</p>
+    <p>I was gonna get you a gift, but then I remembered... you already have me. So you’re welcome.</p>
+    <p>They say age is just a number. Yours is just, u’know... starting to get a little *up there*.</p>
+    <p>Hope your day’s full of cake, chaos, and at least a few poor decisions you'll pretend were totally worth it.</p>
+    <p>Live it up — soon you won't need a permission slip to party past 9PM. 👽</p>
   </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
 
   <audio id="myAudio">
     <source src="Happy%20birthday%20to%20you%20nobody%20likes%20u%20lyrics.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
 
-  <button onclick="playAudio()">▶️ Play Birthday Song</button>
+  <button onclick="startParty()">▶️ Play Birthday Song</button>
 
   <script>
-    function playAudio() {
-      const audio = document.getElementById("myAudio");
-      audio.play();
+    function startParty() {
+      document.getElementById("myAudio").play();
+      launchConfetti();
+    }
+
+    function launchConfetti() {
+      const canvas = document.getElementById("confettiCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const confetti = [];
+
+      for (let i = 0; i < 150; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 20 + 10,
+          color: `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`,
+          tilt: Math.floor(Math.random() * 10) - 10,
+          tiltAngle: 0
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach(c => {
+          ctx.beginPath();
+          ctx.lineWidth = c.r;
+          ctx.strokeStyle = c.color;
+          ctx.moveTo(c.x + c.tilt, c.y);
+          ctx.lineTo(c.x, c.y + c.tilt + c.r / 2);
+          ctx.stroke();
+        });
+
+        update();
+      }
+
+      function update() {
+        confetti.forEach((c, i) => {
+          c.y += Math.cos(c.d / 10) + 1;
+          c.x += Math.sin(c.d / 10);
+          c.tiltAngle += 0.1;
+          c.tilt = Math.sin(c.tiltAngle) * 15;
+
+          if (c.y > canvas.height) {
+            confetti[i] = {
+              x: Math.random() * canvas.width,
+              y: -20,
+              r: c.r,
+              d: c.d,
+              color: c.color,
+              tilt: c.tilt,
+              tiltAngle: 0
+            };
+          }
+        });
+      }
+
+      setInterval(draw, 20);
     }
   </script>
-  
 </body>
 </html>
